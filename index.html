@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Password Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Secure Password Manager</h1>
+            <div class="header-actions">
+                <button onclick="exportData()" class="export-btn">Export Data</button>
+                <button onclick="importData()" class="import-btn">Import Data</button>
+                <button onclick="toggleMasterPassword()" class="master-btn">Master Password</button>
+            </div>
+        </header>
+
+        <!-- Master Password Setup -->
+        <div id="masterPasswordSection" class="section hidden">
+            <h2>Master Password</h2>
+            <div class="input-group">
+                <input type="password" id="masterPassword" placeholder="Set master password">
+                <input type="password" id="confirmMasterPassword" placeholder="Confirm master password">
+                <button onclick="setMasterPassword()">Set Master Password</button>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="section hidden">
+            <h2>Enter Master Password</h2>
+            <div class="input-group">
+                <input type="password" id="loginPassword" placeholder="Master password">
+                <button onclick="login()">Unlock</button>
+            </div>
+        </div>
+
+        <!-- Main App (hidden until unlocked) -->
+        <div id="mainApp" class="hidden">
+            <!-- Search and Filter -->
+            <div class="section">
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="Search passwords..." onkeyup="filterPasswords()">
+                    <select id="categoryFilter" onchange="filterPasswords()">
+                        <option value="">All Categories</option>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Email">Email</option>
+                        <option value="Banking">Banking</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Work">Work</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Add Password Section -->
+            <div class="section">
+                <h2>Add New Password</h2>
+                <div class="input-group">
+                    <input type="text" id="siteName" placeholder="Website/App name">
+                    <input type="text" id="username" placeholder="Username/Email">
+                    <input type="password" id="password" placeholder="Password">
+                    <select id="category">
+                        <option value="Other">Select Category</option>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Email">Email</option>
+                        <option value="Banking">Banking</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Work">Work</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="password-strength">
+                        <div id="strengthBar" class="strength-bar"></div>
+                        <span id="strengthText">Password strength</span>
+                    </div>
+                    <button onclick="addPassword()">Save Password</button>
+                </div>
+            </div>
+
+            <!-- Generate Password Section -->
+            <div class="section">
+                <h2>Generate Strong Password</h2>
+                <div class="input-group">
+                    <input type="text" id="generatedPassword" placeholder="Generated password" readonly>
+                    <button onclick="generatePassword()">Generate</button>
+                    <button onclick="copyPassword()">Copy</button>
+                </div>
+                <div class="options">
+                    <label>
+                        <input type="range" id="passwordLength" min="8" max="32" value="16">
+                        <span id="lengthValue">16 characters</span>
+                    </label>
+                    <label><input type="checkbox" id="useUppercase" checked> Uppercase (A-Z)</label>
+                    <label><input type="checkbox" id="useLowercase" checked> Lowercase (a-z)</label>
+                    <label><input type="checkbox" id="useNumbers" checked> Numbers (0-9)</label>
+                    <label><input type="checkbox" id="useSymbols" checked> Symbols (!@#$%)</label>
+                </div>
+                <div class="strength-meter">
+                    <div class="strength-labels">
+                        <span>Weak</span>
+                        <span>Fair</span>
+                        <span>Good</span>
+                        <span>Strong</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Statistics -->
+            <div class="section">
+                <h2>Password Statistics</h2>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalPasswords">0</span>
+                        <span class="stat-label">Total Passwords</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="weakPasswords">0</span>
+                        <span class="stat-label">Weak Passwords</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="reusedPasswords">0</span>
+                        <span class="stat-label">Reused Passwords</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Passwords Section -->
+            <div class="section">
+                <h2>Saved Passwords</h2>
+                <div id="passwordList" class="password-list">
+                    <!-- Passwords will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Warning -->
+        <div class="warning">
+            <p>⚠️ <strong>Security Notice:</strong> This is a demo app. For real use, consider more secure solutions like Bitwarden or 1Password.</p>
+        </div>
+    </div>
+
+    <!-- File Input for Import (hidden) -->
+    <input type="file" id="importFile" accept=".json" style="display: none">
+
+    <script src="script.js"></script>
+</body>
+</html>
